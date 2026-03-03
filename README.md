@@ -1,0 +1,2 @@
+# SE8106_20APSE4841
+Course stuff for SE8106
