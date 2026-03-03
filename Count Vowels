@@ -1,0 +1,11 @@
+fun main() {
+    val input = "today is the very first day of mobile computing practical session"
+    val vowels = "aeiou"
+    var count = 0
+    for (char in input.lowercase()) {
+        if (char in vowels) {
+            count++
+        }
+    }
+    println("Vowel count: $count")
+}
