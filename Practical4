@@ -1,0 +1,138 @@
+package com.example.practical_03
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.navigationevent.compose.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.NavHost
+import com.example.practical_03.ui.theme.Practical_03Theme
+import androidx.navigation.compose.composable
+import androidx.compose.runtime.setValue
+import androidx.compose.material3.Button
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+
+            val navController = rememberNavController()
+            NavHost(navController= navController, startDestination = "Login") {
+
+                composable("Login") {
+                    LoginScreen(
+                        onLogin = {
+                            navController.navigate("Home") {
+                                popUpTo("Login") { inclusive = true }
+                            }
+                        },
+                        onRegisterClick = {
+                            navController.navigate("Register") {}
+                        }
+                    )
+                }
+composable("Register"){
+    RegisterScreen(
+        onComplete = {navController.popBackStack()}
+    )
+                }
+                
+                composable("Home") {
+                    HomeScreen()
+                }
+                }
+            }
+        }
+
+
+        @Composable
+        fun LoginScreen(
+            onLogin: () -> Unit,
+            onRegisterClick: () -> Unit
+        ) {
+
+            var email by remember { mutableStateOf("") }
+            var password by remember { mutableStateOf("") }
+
+
+
+            Column() {
+                Text(text = "Login")
+                TextField(
+                    value = email,
+                    onValueChange = { email = it },
+                    label = { Text(text = "Email") }
+                )
+
+                Text(text = "Login")
+                TextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text(text = "Password") }
+                )
+
+                TextButton(onClick = onLogin) {
+                    Text(text = "Login")
+                }
+
+                TextButton(onClick = onRegisterClick) {
+                    Text(text = "Go to Register")
+                }
+
+
+            }
+        }
+    }
+
+
+    @Composable
+    fun RegisterScreen(onComplete: () -> Unit) {
+
+        var name by remember { mutableStateOf("") }
+        var email by remember { mutableStateOf("") }
+
+        Column() {
+            Text(text = "Register")
+            TextField(
+                value = name,
+                onValueChange = { name = it },
+                label = { Text(text = "Name") }
+            )
+            TextField(
+                value = email,
+                onValueChange = { email = it },
+                label = { Text(text = "Email") }
+            )
+
+            Button(onClick = onComplete) {
+                Text(text = "Register")
+            }
+
+        }
+    }
+
+
+    @Composable
+    fun HomeScreen() {
+        Box() {
+            Text(text = "Logged In")
+
+        }
+    }
+
